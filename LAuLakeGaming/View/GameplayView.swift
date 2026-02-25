@@ -168,14 +168,14 @@ struct GameplayView: View {
                                     counterclockwiseBufferedDegrees += abs(delta)
                                 }
 
-                                while clockwiseBufferedDegrees >= 360 {
+                                while clockwiseBufferedDegrees >= requiredDegreesForTurn {
                                     incrementTimerStep()
-                                    clockwiseBufferedDegrees -= 360
+                                    clockwiseBufferedDegrees -= requiredDegreesForTurn
                                 }
 
-                                while counterclockwiseBufferedDegrees >= 360 {
+                                while counterclockwiseBufferedDegrees >= requiredDegreesForTurn {
                                     decrementTimerStep()
-                                    counterclockwiseBufferedDegrees -= 360
+                                    counterclockwiseBufferedDegrees -= requiredDegreesForTurn
                                 }
 
                                 lastDragAngle = angle
@@ -283,6 +283,10 @@ struct GameplayView: View {
         if delta > 180 { delta -= 360 }
         if delta < -180 { delta += 360 }
         return delta
+    }
+
+    private var requiredDegreesForTurn: Double {
+        remainingSeconds > 6 * 60 * 60 ? 540 : 360
     }
 
     private func syncGameplayAudio() {
